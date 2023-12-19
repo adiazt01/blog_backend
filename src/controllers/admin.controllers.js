@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { prisma } from "../app";
 
 const admin = {
   username: "admin",
@@ -26,3 +27,11 @@ export const logoutAdmin = (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ message: "Logout successfully" });
 };
+
+export const getPosts = async (req, res) => {
+  const posts = await prisma.post.findMany();
+  if (posts == undefined) {
+    return res.status(404).json({ posts: [] });
+  }
+  res.status(200).json(posts);
+}

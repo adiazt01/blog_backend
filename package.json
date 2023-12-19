@@ -4,8 +4,8 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dev": "prisma generate --schema=prisma/schema.prisma && node src/index.js",
-    "test": "prisma generate --schema=prisma/schema.test.prisma && node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "dev": "cross-env NODE_ENV=development prisma generate --schema=prisma/schema.prisma && node src/index.js",
+    "test": "cross-env NODE_ENV=test prisma generate --schema=prisma/schema.test.prisma && node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
     "@prisma/client": "^5.7.0",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",

@@ -42,8 +42,41 @@ describe("GET api/admin/logout", () => {
     const response = await request(app)
       .get("/api/admin/logout")
       .set("Cookie", [responseLogin.headers["set-cookie"][0]]);
-    console.log(console.log(response.headers["set-cookie"][0]));
     expect(response.statusCode).toBe(200);
     expect(response.headers["set-cookie"][0]).toMatch(/token=;/);
+  });
+});
+
+// Deberia de validar si tiene token
+// y luego traer los posts
+describe("GET api/admin/posts", () => {
+  test("dont allow to get posts without token", async () => {
+    const response = await request(app).get("/api/admin/posts");
+    expect(response.statusCode).toBe(401);
+    expect(response.body.message).toBe("Unauthorized");
+  });
+
+  test("allow to get posts with token", async () => {
+    const responseLogin = await request(app)
+      .post("/api/admin/login")
+      .send(admin);
+
+    const response = await request(app)
+      .get("/api/admin/posts")
+      .set("Cookie", [responseLogin.headers["set-cookie"][0]]);
+    expect(response.statusCode).toBe(200);
+  });
+
+  test("should return a array", async () => {
+    const responseLogin = await request(app)
+      .post("/api/admin/login")
+      .send(admin);
+
+    const response = await request(app)
+      .get("/api/admin/posts")
+      .set("Cookie", [responseLogin.headers["set-cookie"][0]]);
+
+    expect(response.statusCode).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
   });
 });
