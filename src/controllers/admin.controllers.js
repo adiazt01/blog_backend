@@ -14,12 +14,15 @@ export const loginAdmin = async (req, res) => {
     return res.status(401).json({ message: "Invalid username or password" });
   }
 
-  console.log(process.env.SECRET_KEY);
-
   const token = jwt.sign({ username: admin.username }, process.env.SECRET_KEY, {
     expiresIn: "1h",
   });
 
-  res.cookie("token", token)
+  res.cookie("token", token);
   res.status(200).json({ message: "Login successfully" });
+};
+
+export const logoutAdmin = (req, res) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Logout successfully" });
 };
