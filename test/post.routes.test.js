@@ -6,4 +6,6 @@ describe("POST api/posts", () =>{
         const response = await request(app).post("/api/posts")
         expect(response.statusCode).toBe(200)
     })
+
+    
 })

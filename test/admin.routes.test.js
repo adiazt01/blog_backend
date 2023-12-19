@@ -6,11 +6,17 @@ const admin = {
   password: "admin",
 };
 
+const post = {
+  title: "test",
+  content: "test",
+  tags: ["test", "test1", "test2"],
+};
+
 describe("POST api/admin/login", () => {
   test("don't allow to login with fields empty", async () => {
     const response = await request(app).post("/api/admin/login").send({});
     expect(response.statusCode).toBe(401);
-    expect(response.body.message).toBe("Invalid username or password");
+    expect(response.body.message).toBe("Invalid data on fields");
   });
 
   test("don't allow to login with wrong password and username", async () => {
@@ -18,7 +24,7 @@ describe("POST api/admin/login", () => {
       .post("/api/admin/login")
       .send({ username: "admin1", password: "admin1" });
     expect(response.statusCode).toBe(401);
-    expect(response.body.message).toBe("Invalid username or password");
+    expect(response.body.message).toBe("Invalid data on fields");
   });
 
   test("allow to login with correct password and username", async () => {
@@ -78,5 +84,26 @@ describe("GET api/admin/posts", () => {
 
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);
+  });
+});
+
+describe("POST api/admin/posts", () => {
+  test("dont allow to create post without token", async () => {
+    const response = await request(app).post("/api/admin/posts");
+    expect(response.statusCode).toBe(401);
+    expect(response.body.message).toBe("Unauthorized");
+  });
+
+  test("don't allow to create post with fields empty", async () => {
+    const responseLogin = await request(app)
+      .post("/api/admin/login")
+      .send(admin);
+
+    const response = await request(app)
+      .post("/api/admin/posts").set("Cookie", [responseLogin.headers["set-cookie"][0]]);
+
+    console.log(response.body);
+    expect(response.statusCode).toBe(401);
+    expect(response.body.message).toBe("The fields are empty");
   });
 });

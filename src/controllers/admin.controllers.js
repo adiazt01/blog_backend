@@ -12,7 +12,7 @@ export const loginAdmin = async (req, res) => {
     req.body.username !== admin.username ||
     !bcrypt.compareSync(req.body.password, admin.password)
   ) {
-    return res.status(401).json({ message: "Invalid username or password" });
+    return res.status(401).json({ message: "Invalid data on fields" });
   }
 
   const token = jwt.sign({ username: admin.username }, process.env.SECRET_KEY, {
@@ -33,5 +33,10 @@ export const getPosts = async (req, res) => {
   if (posts == undefined) {
     return res.status(404).json({ posts: [] });
   }
+
   res.status(200).json(posts);
+}
+
+export const createPost = async (req, res) => {
+  res.status(200).json({ message: "Create post successfully" });
 }
