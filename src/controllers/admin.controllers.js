@@ -35,8 +35,24 @@ export const getPosts = async (req, res) => {
   }
 
   res.status(200).json(posts);
-}
+};
 
 export const createPost = async (req, res) => {
+  const { title, content } = req.body;
+  const tags = req.body.tags.split(",");
+
+  await prisma.post.create({
+    data: {
+      title,
+      content,
+      tags: {
+        connectOrCreate: tags.map((tag) => ({
+          where: { name: tag },
+          create: { name: tag },
+        })),
+      },
+    },
+  });
+
   res.status(200).json({ message: "Create post successfully" });
-}
+};

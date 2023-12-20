@@ -1,4 +1,4 @@
-import { app } from "../src/app";
+import { app, prisma } from "../src/app";
 import request from "supertest";
 
 const admin = {
@@ -11,6 +11,12 @@ const post = {
   content: "test",
   tags: ["test", "test1", "test2"],
 };
+
+beforeEach(async () => {
+  await prisma.tag.deleteMany();
+  await prisma.post.deleteMany();
+  prisma.$disconnect();
+});
 
 describe("POST api/admin/login", () => {
   test("don't allow to login with fields empty", async () => {
@@ -100,10 +106,21 @@ describe("POST api/admin/posts", () => {
       .send(admin);
 
     const response = await request(app)
-      .post("/api/admin/posts").set("Cookie", [responseLogin.headers["set-cookie"][0]]);
+      .post("/api/admin/posts").set("Cookie", [responseLogin.headers["set-cookie"][0]]).send({});
 
-    console.log(response.body);
     expect(response.statusCode).toBe(401);
-    expect(response.body.message).toBe("The fields are empty");
+    expect(response.body.message).toBe("Invalid data on fields");
+  });
+
+  test("allow to create post with token", async () => {
+    const responseLogin = await request(app)
+      .post("/api/admin/login")
+      .send(admin);
+
+    const response = await request(app)
+      .post("/api/admin/posts").set("Cookie", [responseLogin.headers["set-cookie"][0]]).send(post);
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toBe("Create post successfully");
   });
 });
