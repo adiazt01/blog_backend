@@ -150,11 +150,31 @@ describe("PUT api/admin/posts/:id", () => {
 			.send(admin);
 
 		const response = await request(app)
-			.put("/api/admin/posts/1")
+			.put("/api/admin/posts/clqdxqtzy0000ixtnrd3xr944")
 			.set("Cookie", [responseLogin.headers["set-cookie"][0]])
 			.send(post);
-
 		expect(response.statusCode).toBe(200);
 		expect(response.body.message).toBe("Update post successfully");
 	});
 });
+
+
+describe("DELETE api/admin/posts/:id", () => {
+	test("don't allow to delete post without token", async () => {
+		const response = await request(app).delete("/api/admin/posts/1");
+		expect(response.statusCode).toBe(401);
+		expect(response.body.message).toBe("Unauthorized");
+	});
+
+	test("allow to delete post with token", async () => {
+		const responseLogin = await request(app)
+			.post("/api/admin/login")
+			.send(admin);
+
+		const response = await request(app)
+			.delete("/api/admin/posts/clqdxqtzy0000ixtnrd3xr944")
+			.set("Cookie", [responseLogin.headers["set-cookie"][0]]);
+		expect(response.statusCode).toBe(200);
+		expect(response.body.message).toBe("Delete post successfully");
+	});
+})

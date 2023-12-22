@@ -1,6 +1,8 @@
 import { Router } from "express";
 import {
 	createPost,
+	deletePost,
+	getPost,
 	getPosts,
 	loginAdmin,
 	logoutAdmin,
@@ -25,4 +27,9 @@ adminRoutes.post(
 	createPost,
 );
 adminRoutes.get("/posts/:id", validateToken, getPost);
-adminRoutes.put("/posts/:id", validateToken, updatePost);
+adminRoutes.put(
+	"/posts/:id",
+	[validateToken, validateSchema(postSchema)],
+	updatePost,
+);
+adminRoutes.delete("/posts/:id", validateToken, deletePost);
