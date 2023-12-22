@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "cross-env NODE_ENV=development prisma generate --schema=prisma/schema.prisma && node src/index.js",
-    "test": "cross-env NODE_ENV=test prisma generate --schema=prisma/schema.test.prisma && node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "cross-env NODE_ENV=test prisma generate --schema=prisma/schema.test.prisma && node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "lint:fix": "npx @biomejs/biome check --apply ./src",
+    "lint:fix:test": "npx @biomejs/biome check --apply ./test"
   },
   "keywords": [],
   "jest": {
@@ -26,6 +28,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.4.1",
     "jest": "^29.7.0",
     "prisma": "^5.7.0",
     "supertest": "^6.3.3"
