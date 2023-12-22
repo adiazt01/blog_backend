@@ -8,6 +8,11 @@
     "test": "cross-env NODE_ENV=test prisma generate --schema=prisma/schema.test.prisma && node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
+  "jest": {
+    "setupFiles": [
+      "./jest.setup.js"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

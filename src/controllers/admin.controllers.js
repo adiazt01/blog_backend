@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { prisma } from "../app";
+import { prisma } from "../app.js";
 
 const admin = {
   username: "admin",
@@ -31,28 +31,22 @@ export const logoutAdmin = (req, res) => {
 export const getPosts = async (req, res) => {
   const posts = await prisma.post.findMany();
   if (posts == undefined) {
-    return res.status(404).json({ posts: [] });
+    return res.status(200).json({ posts: [] });
   }
 
   res.status(200).json(posts);
 };
 
 export const createPost = async (req, res) => {
-  const { title, content } = req.body;
-  const tags = req.body.tags.split(",");
+  const { title, content, tags } = req.body;
 
-  await prisma.post.create({
+  const newPost = await prisma.post.create({
     data: {
       title,
       content,
-      tags: {
-        connectOrCreate: tags.map((tag) => ({
-          where: { name: tag },
-          create: { name: tag },
-        })),
-      },
+      tags,
     },
   });
 
-  res.status(200).json({ message: "Create post successfully" });
+  res.status(200).json({ message: "Create post successfully", newPost });
 };

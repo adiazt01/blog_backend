@@ -1,14 +1,17 @@
 import express from "express";
-import { postRoutes } from "./routes/post.routes";
-import { adminRoutes } from "./routes/admin.routes";
+import { postRoutes } from "./routes/post.routes.js";
+import { adminRoutes } from "./routes/admin.routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import { PrismaClient } from "@prisma/client";
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
 
 export const app = express();
-export const prisma = new PrismaClient();
+console.log(process.env.DATABASE_URL);
+console.log(process.env.NODE_ENV);
+export const prisma = new PrismaClient({datasources: {db: {url: process.env.DATABASE_URL}}});
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 app.use(cookieParser());
 app.use(express.json());
 

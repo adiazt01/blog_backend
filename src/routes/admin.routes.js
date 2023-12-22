@@ -4,11 +4,11 @@ import {
   getPosts,
   loginAdmin,
   logoutAdmin,
-} from "../controllers/admin.controllers";
-import { validateSchema } from "../middlewares/validateSchema";
-import { adminSchema } from "../schemas/admin.schemas";
-import { validateToken } from "../middlewares/validateToken";
-import { postSchema } from "../schemas/post.schema";
+} from "../controllers/admin.controllers.js";
+import { validateSchema } from "../middlewares/validateSchema.js"
+import { adminSchema } from "../schemas/admin.schemas.js";
+import { validateToken } from "../middlewares/validateToken.js";
+import { postSchema } from "../schemas/post.schema.js";
 
 export const adminRoutes = Router();
 

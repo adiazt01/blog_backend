@@ -8,24 +8,10 @@ datasource db {
 }
 
 model Post {
-    id        String      @id @default(cuid()) @map("_id")
+    id        String   @id @default(cuid()) @map("_id")
     title     String
     content   String
-    createdAt DateTime    @default(now())
-    updatedAt DateTime    @updatedAt
-    tags      TagOnPost[]
-}
-
-model Tag {
-    id    String      @id @default(cuid()) @map("_id")
-    name  String
-    posts TagOnPost[]
-}
-
-model TagOnPost {
-    id     String @id @default(cuid()) @map("_id")
-    postId String
-    tagId  String
-    post   Post   @relation(fields: [postId], references: [id])
-    tag    Tag    @relation(fields: [tagId], references: [id])
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    tags      String[] @default(["none"])
 }
