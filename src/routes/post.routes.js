@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { createPost } from "../controllers/post.controllers.js";
+import {getAllPosts, getLastsFivePost, searchPosts } from "../controllers/post.controllers.js";
 
 export const postRoutes = Router();
 
-postRoutes.post("/", createPost);
+postRoutes.get("/search/:search", searchPosts);
+postRoutes.get("/", getAllPosts)
+postRoutes.get("/lasts", getLastsFivePost); 

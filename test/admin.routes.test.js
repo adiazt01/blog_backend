@@ -1,4 +1,4 @@
-import { app, prisma } from "../src/app";
+import { app } from "../src/app";
 import request from "supertest";
 
 const admin = {
@@ -65,11 +65,9 @@ describe("GET api/admin/posts", () => {
 		const responseLogin = await request(app)
 			.post("/api/admin/login")
 			.send(admin);
-		console.log(responseLogin.body);
 		const response = await request(app)
 			.get("/api/admin/posts")
 			.set("Cookie", [responseLogin.headers["set-cookie"][0]]);
-		console.log(response.body);
 		expect(response.statusCode).toBe(200);
 	});
 
