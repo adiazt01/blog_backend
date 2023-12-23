@@ -97,4 +97,4 @@ export const deletePost = async (req, res) => {
 	});
 
 	res.status(200).json({ message: "Delete post successfully" });
-}
+};

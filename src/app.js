@@ -12,6 +12,7 @@ export const prisma = new PrismaClient({
 	datasources: { db: { url: process.env.DATABASE_URL } },
 });
 
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 

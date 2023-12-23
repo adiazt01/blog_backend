@@ -156,7 +156,6 @@ describe("PUT api/admin/posts/:id", () => {
 	});
 });
 
-
 describe("DELETE api/admin/posts/:id", () => {
 	test("don't allow to delete post without token", async () => {
 		const response = await request(app).delete("/api/admin/posts/1");
@@ -175,4 +174,4 @@ describe("DELETE api/admin/posts/:id", () => {
 		expect(response.statusCode).toBe(200);
 		expect(response.body.message).toBe("Delete post successfully");
 	});
-})
+});
