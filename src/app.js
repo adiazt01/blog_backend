@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { PrismaClient } from "@prisma/client";
+import morgan from "morgan";
+
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 export const app = express();
@@ -16,6 +18,7 @@ export const prisma = new PrismaClient({
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
+app.use(morgan("combined"))
 
 // Routes
 app.use("/api/posts", postRoutes);
