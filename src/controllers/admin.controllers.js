@@ -49,11 +49,12 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
 	const { title, content, tags } = req.body;
 
+	const tagsArray = tags.split(",").map((tag) => tag.trim());
 	const newPost = await prisma.post.create({
 		data: {
 			title,
 			content,
-			tags,
+			tags: tagsArray,
 		},
 	});
 
@@ -71,12 +72,14 @@ export const updatePost = async (req, res) => {
 		return res.status(404).json({ message: "Post not found" });
 	}
 
+	const tagsArray = tags.split(",").map((tag) => tag.trim());
+
 	const post = await prisma.post.update({
 		where: { id: req.params.id },
 		data: {
 			title,
 			content,
-			tags,
+			tags: tagsArray,
 		},
 	});
 

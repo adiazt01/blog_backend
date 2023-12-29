@@ -24,9 +24,19 @@ export const searchPosts = async (req, res) => {
 	res.status(200).json(posts);
 };
 
+export const getPostById = async (req, res) => {
+	const post = await prisma.post.findUnique({
+		where: { id: req.params.id },
+	});
+	if (post === undefined) {
+		return res.status(404).json({ message: "Post not found" });
+	}
+	res.status(200).json({ message: "Get post successfully", post });
+};
+
 export const getAllPosts = async (req, res) => {
-	const page = parseInt(req.query.page);
-	const limit = parseInt(req.query.limit);
+	const page = parseInt(req.query.page) || 1;
+	const limit = parseInt(req.query.limit) || 10;
 	const startIndex = (page - 1) * limit;
 
 	const posts = await prisma.post.findMany({

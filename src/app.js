@@ -15,10 +15,16 @@ export const prisma = new PrismaClient({
 	datasources: { db: { url: process.env.DATABASE_URL } },
 });
 
-app.use(cors());
+app.use(
+	cors({
+		origin: "http://localhost:5173",
+		credentials: true,
+	}),
+);
+
 app.use(cookieParser());
 app.use(express.json());
-app.use(morgan("combined"))
+app.use(morgan("combined"));
 
 // Routes
 app.use("/api/posts", postRoutes);

@@ -11,7 +11,7 @@ import {
 import { validateSchema } from "../middlewares/validateSchema.js";
 import { adminSchema } from "../schemas/admin.schemas.js";
 import { validateToken } from "../middlewares/validateToken.js";
-import { postSchema } from "../schemas/post.schema.js";
+import { postSchema, postUpdateSchema } from "../schemas/post.schema.js";
 
 export const adminRoutes = Router();
 
@@ -29,7 +29,7 @@ adminRoutes.post(
 adminRoutes.get("/posts/:id", validateToken, getPost);
 adminRoutes.put(
 	"/posts/:id",
-	[validateToken, validateSchema(postSchema)],
+	[validateToken, validateSchema(postUpdateSchema)],
 	updatePost,
 );
 adminRoutes.delete("/posts/:id", validateToken, deletePost);
