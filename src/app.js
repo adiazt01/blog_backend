@@ -17,7 +17,7 @@ export const prisma = new PrismaClient({
 
 app.use(
 	cors({
-		origin: "http://localhost:5173",
+		origin: "https://blog-frontend-h0be.onrender.com/",
 		credentials: true,
 	}),
 );
